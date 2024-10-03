@@ -44,7 +44,7 @@ void calculateCost(int numDays, int hotelCostPerNight, int rideCost, int cost_pl
     taxes = total_discount * 0.13 + total_discount;
     printf("Finally, your total cost after taxes: $ %f\n", taxes);
 }
-
+// start of the main function 
 int main () {
 
     int input, input_toMin;
@@ -62,11 +62,22 @@ int main () {
 
         printf("Please enter a value for the hour: ");
         scanf("%d", &hour);
+        if(hour > 12 || hour < 1){ 
+            printf("You did not enter a valid input for the hour, please try again!!\n");
+            return 0;
+        }
         printf("Please enter a value for the minute: ");
-        scanf("%d", &minute);
-        printf("Please enter a for am and p for pm: ");
+        scanf("%d", &minute); 
+        if(minute > 59 || minute < 0){// fix this for later !!!!!!!!!!!!!!!!!!!!!!!
+            printf("You did not enter a valid input for the minutes, please try again!!\n");
+            return 0;
+        }
+        printf("Please enter a for am or p for pm: ");
         scanf(" %c", &apm);  // space needs to be there so go to newline
-
+         if(apm != 'a' && apm != 'p'){
+            printf("You did not choose either a or p, please try again!!\n");
+            return 0;
+        }
         for(int i = 0; i < 30; i++){  // this is the for loop for the line 
             printf("-");
         }
@@ -79,7 +90,6 @@ int main () {
         }
         else if(apm =='p')
         {
-            hour += 12;
              printf("You entered the time: %02d:%02d PM\n", hour, minute);
         }
 
@@ -88,13 +98,15 @@ int main () {
                 hour = 0;
                 printf("In the 24 Hour format - you entered: %02d:%02d AM\n", hour, minute);
             }
+            else{
+                printf("In the 24 Hour fomrmat - you entred: %02d:%02d AM\n", hour, minute);
+            }
         }
         else if(apm == 'p'){
             if(hour != 12){
-                int hour_convert;
-                hour_convert = hour + 12;
-                printf("In the 24 Hour format - you entered: %02d:%02d PM\n", hour_convert, minute);
+                hour += 12;
             }
+            printf("In the 24 Hour format - you entered: %02d:%02d PM\n", hour, minute);
         }
 
 
@@ -193,7 +205,7 @@ int main () {
         rideCost = 0;
         calculateCost(numDays, hotelCostPerNight, rideCost, cost_placeholder);
     }
-
+    // this next part is if the person chooses to use the 12 hour format!!!!
     }
     else if(input == 2){
             
@@ -202,36 +214,50 @@ int main () {
 
         printf("Please enter a value for the hour: ");
         scanf("%d", &hour);
+        if(hour > 23 || hour < 0)
+        {
+            printf("Please enter a valid input for the hour and try again!!!\n");
+            return 0;
+        }
         printf("Please enter a value for the minute: ");
         scanf("%d", &minute);
-        printf("Please enter a for am and p for pm: ");
-        scanf(" %c", &apm);  // space needs to be there so go to newline
-
+        if(minute > 59 || minute < 0){
+            printf("You did not enter a valid input for the minutes, please try again!!\n");
+            return 0;
+        }
+      
         for(int i = 0; i < 30; i++){  // this is the for loop for the line 
             printf("-");
         }
 
         printf("\n");
 
-        if(apm == 'a')     // this is to show the user their inputted time
-        {
-            printf("You entered the time: %02d:%02d AM\n", hour, minute);   //02 after the % in order to have a 0 before or after the number to make the time correct   
+        if(hour >= 12) {
+        apm = 'P';  // It's PM if the hour is 12 or more
+        } else {
+        apm = 'A';  // Otherwise, it's AM
         }
-        else if(apm =='p')
-        {
-             printf("You entered the time: %02d:%02d PM\n", hour, minute);
-        }
-
-        if(apm == 'a') {  // what the users time would have been if it was in 24 hour format
-            if(hour <= 12) {
+        
+        printf("You entered the time: %02d:%02d %cM\n", hour, minute, apm);     
+        
+        if(apm == 'A') {  // what the users time would have been if it was in 24 hour format
+            if(hour <= 12 && hour >= 0) {
                 printf("In the 12 Hour format - you entered: %02d:%02d AM\n", hour, minute);
             }
+            else{
+                printf("You did not enter a proper time in for the morning (AM) please try again!!\n");
+                return 0;
+            }
         }
-        else if(apm == 'p'){
-            if(hour <= 24){
+        else if(apm == 'P'){
+            if(hour <= 24 && hour > 12){
                 int hour_convert;
                 hour_convert = hour - 12;
                 printf("In the 12 Hour format - you entered: %02d:%02d PM\n", hour_convert, minute);
+            }
+            else{
+                printf("You did not enter the time in the 24 hour format please try again!!\n");
+                return 0;
             }
         }
 
