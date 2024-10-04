@@ -29,7 +29,6 @@ Running: ./a.out
 // calculate the cost method so that i dont need 400 lines for repeated if else statements for the hotels
 void calculateCost(int numDays, int hotelCostPerNight, int rideCost, int cost_placeholder) {
     int birthdate, hotelCost, total, total_discount;
-    float taxes;
     
     hotelCost = numDays * hotelCostPerNight;
     total = hotelCost + cost_placeholder + rideCost;
@@ -66,8 +65,9 @@ void calculateCost(int numDays, int hotelCostPerNight, int rideCost, int cost_pl
 
     printf("Total Cost after discounts 1 and 2: $ %d\n\n", total_discount);
 
-    taxes = total_discount * 0.13 + total_discount;
-    printf("Finally, your total cost after taxes: $ %f\n", taxes);
+    float tax = total_discount * 0.13;
+    float final_total = total_discount + tax;
+    printf("Finally, your total cost after taxes: $ %.2f\n", final_total);
 }
 // start of the main function 
 int main () {
@@ -133,9 +133,7 @@ int main () {
             }
             printf("In the 24 Hour format - you entered: %02d:%02d PM\n", hour, minute);
         }
-
-
-     for(int i = 0; i < 30; i++){  // this is the closing for loop for the line
+        for(int i = 0; i < 30; i++){  // this is the closing for loop for the line
             printf("-");
         }
         printf("\n");
@@ -146,7 +144,6 @@ int main () {
     int departure_placeholder = -1;
     int arrival_placeholder = -1;
     int cost_placeholder = -1;
-
         // this is where teh closest departure time is found by sifting through the 3 arrays and getting the proper values
      for (int i = 0; i < size; i++) {
         if (departure_times[i] >= input_toMin) {
@@ -156,28 +153,23 @@ int main () {
             break; // make sure it actually stops when it finds a time that is finially greater than the input 
         }
      }
-
     if(departure_placeholder == -1) // if the placeholder doesnt change then it means there is no close departure time 
     {
         printf("There are currently no flights available at your current time.\n");
         return 0;
     }
-
     int departureHour = departure_placeholder / 60;
     int departureMinute = departure_placeholder % 60;
     char departureApm = (departure_placeholder >= 720) ? 'P' : 'A'; // must be 720 because that is MINUTES
     // cooler way of writing if else statement
     //if the condition is true p is the result for PM and if false AM 
-
     if (departureHour > 12){
         departureHour -= 12;  // Convert to 12-hour format
     } 
     else if (departureHour == 0) {
         departureHour = 12; //this is just for if its 12 AM or PM
     }
-
     // this next set is the same as the one above but for arrivals
-
     int arrivalHour = arrival_placeholder / 60;
     int arrivalMinute = arrival_placeholder % 60;
     char arrivalApm = (arrival_placeholder >= 720) ? 'P' : 'A';  // must be 720 because that is MINUTES
@@ -191,11 +183,8 @@ int main () {
        arrivalHour = 12; //this is just for if its 12 AM or PM
     }
 
-
     printf("Closest departure time is %02d:%02d %cM, ", departureHour, departureMinute, departureApm);
     printf("arriving at %02d:%02d %cM\n", arrivalHour, arrivalMinute, arrivalApm);
-
-
     //now we ask for the hotels 
     int hotel_input;
     printf("Would you like a hotel in Montreal - enter 0 for no and 1 for yes: ");
